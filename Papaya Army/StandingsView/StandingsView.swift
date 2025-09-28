@@ -22,8 +22,7 @@ struct StandingsView: View {
 	@State private var selectedStandings: Standings = .drivers
 	var body: some View {
 		VStack {
-			#warning("not implement yet: hide the header as scroll up, and show the header as scroll down. Might be solution: onScrollGeometryChange / GeometryReader")
-			VStack { // header
+			VStack {  // header
 				Text("Standings")
 					.foregroundStyle(.white.opacity(0.8))
 					.font(.title.weight(.bold))
@@ -52,5 +51,5 @@ struct StandingsView: View {
 
 #Preview {
 	StandingsView(seasonId: "2025")
-//	TabsView(seasonId: "2025")
+	//	TabsView(seasonId: "2025")
 }

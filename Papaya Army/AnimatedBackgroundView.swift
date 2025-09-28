@@ -24,63 +24,80 @@ import SwiftUI
 //	}
 // }
 
+// 优化前
 struct AnimatedBackgroundView: View {
-	@State private var colors = MeshGradientData.randomColors()
-	@State private var isActive = true
-	@State private var colorIndex = 0
-
-	private let precomputedColorSchemes: [[Color]] = {
-		var schemes = [[Color]]()
-		for _ in 0 ..< 6 {
-			schemes.append(MeshGradientData.randomColors())
-		}
-		return schemes
-	}()
-
-	private let timerInterval: TimeInterval = 6
+	@State private var colors = MeshGradientData.randomColors
+	private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
 	var body: some View {
-		MeshGradient(width: 3, height: 2, points: MeshGradientData.points, colors: colors)
-			.onChange(of: isActive) { newValue in
-				if newValue {
-					startGradientAnimation()
-				}
-			}
-			.onAppear {
-				startGradientAnimation()
-
-				NotificationCenter.default.addObserver(
-					forName: UIApplication.didEnterBackgroundNotification,
-					object: nil,
-					queue: .main)
-				{ _ in
-					isActive = false
-				}
-
-				NotificationCenter.default.addObserver(
-					forName: UIApplication.willEnterForegroundNotification,
-					object: nil,
-					queue: .main)
-				{ _ in
-					isActive = true
+		MeshGradient(width: 4, height: 4, points: MeshGradientData.points, colors: colors)
+			.onReceive(timer) { _ in
+				withAnimation(.easeInOut(duration: 5)) {
+					colors = MeshGradientData.randomColors
 				}
 			}
 			.ignoresSafeArea()
 	}
-
-	private func startGradientAnimation() {
-		withAnimation(.easeInOut(duration: timerInterval)) {
-			colorIndex = (colorIndex + 1) % precomputedColorSchemes.count
-			colors = precomputedColorSchemes[colorIndex]
-
-			DispatchQueue.main.asyncAfter(deadline: .now() + timerInterval) {
-				if isActive {
-					startGradientAnimation()
-				}
-			}
-		}
-	}
 }
+
+// 优化后
+//struct AnimatedBackgroundView: View {
+//	@State private var colors = MeshGradientData.randomColors()
+//	@State private var isActive = true
+//	@State private var colorIndex = 0
+//
+//	private let precomputedColorSchemes: [[Color]] = {
+//		var schemes = [[Color]]()
+//		for _ in 0 ..< 6 {
+//			schemes.append(MeshGradientData.randomColors())
+//		}
+//		return schemes
+//	}()
+//
+//	private let timerInterval: TimeInterval = 6
+//
+//	var body: some View {
+//		MeshGradient(width: 3, height: 2, points: MeshGradientData.points, colors: colors)
+//			.onChange(of: isActive) { newValue in
+//				if newValue {
+//					startGradientAnimation()
+//				}
+//			}
+//			.onAppear {
+//				startGradientAnimation()
+//
+//				NotificationCenter.default.addObserver(
+//					forName: UIApplication.didEnterBackgroundNotification,
+//					object: nil,
+//					queue: .main)
+//				{ _ in
+//					isActive = false
+//				}
+//
+//				NotificationCenter.default.addObserver(
+//					forName: UIApplication.willEnterForegroundNotification,
+//					object: nil,
+//					queue: .main)
+//				{ _ in
+//					isActive = true
+//				}
+//			}
+//			.ignoresSafeArea()
+//	}
+//
+//	private func startGradientAnimation() {
+//		withAnimation(.easeInOut(duration: timerInterval)) {
+//			colorIndex = (colorIndex + 1) % precomputedColorSchemes.count
+//			colors = precomputedColorSchemes[colorIndex]
+//
+//			DispatchQueue.main.asyncAfter(deadline: .now() + timerInterval) {
+//				if isActive {
+//					startGradientAnimation()
+//				}
+//			}
+//		}
+//	}
+//}
 
 // struct AnimatedBackgroundView: View {
 //	@State private var start = UnitPoint(x: 0, y: 0)
