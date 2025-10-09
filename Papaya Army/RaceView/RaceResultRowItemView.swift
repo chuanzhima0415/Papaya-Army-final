@@ -11,6 +11,7 @@ struct RaceResultRowItemView: View {
 	var position: Int
 	var raceResult: RaceResult
 	var body: some View {
+        let _ = Self._printChanges()
 		HStack {
 			switch position {
 			case 1:

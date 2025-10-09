@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+// 环境 key - 用于控制 MeshGradient 动画是否启用
+private struct AnimationEnabledKey: EnvironmentKey {
+	static let defaultValue: Binding<Bool> = .constant(true)
+}
+
+extension EnvironmentValues {
+	var meshAnimationEnabled: Binding<Bool> {
+		get { self[AnimationEnabledKey.self] }
+		set { self[AnimationEnabledKey.self] = newValue }
+	}
+}
+
 // struct AnimatedBackgroundView: View {
 //	private let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
 //	private let width = 4
@@ -27,13 +39,17 @@ import SwiftUI
 // 优化前
 struct AnimatedBackgroundView: View {
 	@State private var colors = MeshGradientData.randomColors
+	@Environment(\.meshAnimationEnabled) private var isAnimating
 	private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
 	var body: some View {
+        let _ = Self._printChanges()
 		MeshGradient(width: 4, height: 4, points: MeshGradientData.points, colors: colors)
 			.onReceive(timer) { _ in
-				withAnimation(.easeInOut(duration: 5)) {
-					colors = MeshGradientData.randomColors
+				if isAnimating.wrappedValue {
+					withAnimation(.easeInOut(duration: 5)) {
+						colors = MeshGradientData.randomColors
+					}
 				}
 			}
 			.ignoresSafeArea()

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import UIKit
 
 struct Card: Identifiable, Equatable {
 	var offset: Double
@@ -16,6 +15,7 @@ struct Card: Identifiable, Equatable {
 
 struct GrandPrixSchedulesView: View {
 	@Binding var cards: [Card]
+	@Binding var isMeshAnimating: Bool
 	@State private var grandPrixSchedules: [GrandPrixSchedule]? // 每一站的比赛信息
 	@State private var dragAmount = CGSize.zero // 拖动的坐标
 	@State private var draggingCard: Card? // 拖动的卡片
@@ -43,7 +43,7 @@ struct GrandPrixSchedulesView: View {
 						CardView(gpName: grandPrixSchedules[card.roundIndex].gpName)
 							.frame(width: 280, height: 250)
 							.scaleEffect(((isLongPressed || isShortPressed) && pressedID == card.id) ? 1.12 : 1)
-							.animation(.default, value: selectedCard)
+//							.animation(.default, value: selectedCard)
 							.shadow(color: .black, radius: 5)
 							.offset(y: card.offset * 5)
 							.offset(draggingCard?.id == card.id ? dragAmount : .zero)
@@ -100,11 +100,15 @@ struct GrandPrixSchedulesView: View {
 				withAnimation {
 					isLongPressed = false
 				}
+				isMeshAnimating = true
 			}, content: { card in
 				if let grandPrix = grandPrixSchedules?[card.roundIndex] {
 					StagesScheduleView(gpSchedule: grandPrix)
 						.presentationDetents([.large, .medium])
 						.presentationDragIndicator(.visible)
+						.onAppear {
+							isMeshAnimating = false
+						}
 				} else {
 					LottieView(name: .loading, animationSpeed: 0.5, loopMode: .loop)
 				}
