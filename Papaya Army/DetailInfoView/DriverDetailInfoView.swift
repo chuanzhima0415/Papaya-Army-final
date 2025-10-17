@@ -19,13 +19,15 @@ struct DriverDetailInfoView: View {
 }
 
 #Preview {
-	DriverDetailInfoView(driverDetail: DriverDetailInfo(
-		firstName: "xxx",
-		lastName: "xxx",
-		nationality: "xxx",
-		shortName: "xxx",
-		birthday: "xxx-xxx-xxx",
-		number: 4,
-		url: "xxxx"
-	))
+	DriverDetailInfoView(
+		driverDetail: DriverDetailInfo(
+			firstName: "xxx",
+			lastName: "xxx",
+			nationality: "xxx",
+			shortName: "xxx",
+			birthday: "xxx-xxx-xxx",
+			number: 4,
+			url: "xxxx"
+		)
+	)
 }

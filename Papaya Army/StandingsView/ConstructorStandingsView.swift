@@ -32,7 +32,6 @@ struct ConstructorStandingsView: View {
 					ConstructorDetailInfoView(constructorName: standing.teamName, constructorId: standing.teamId)
 						.presentationDetents([.medium, .large])
 				})
-				.scrollContentBackground(.hidden)
 				.safeAreaPadding(.bottom, 130) // 防止最后的那个车队被 tab bar 遮住
 			} else {
 				LottieView(name: .loading, animationSpeed: 0.5, loopMode: .loop)

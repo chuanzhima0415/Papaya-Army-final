@@ -46,7 +46,6 @@ struct DriverStandingsView: View {
 				}
 				.safeAreaPadding(.bottom, tabBarHeight) // 防止最后的那个车手被 tab bar 遮住
 				.listStyle(.plain)
-				.scrollContentBackground(.hidden)
 			} else {
 				LottieView(name: .loading, animationSpeed: 0.5, loopMode: .loop)
 			}
