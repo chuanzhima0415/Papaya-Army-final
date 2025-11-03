@@ -20,6 +20,7 @@ struct StandingsView: View {
 	var seasonId: String
 	private let headerHeight: CGFloat = 60
 	@State private var selectedStandings: Standings = .drivers
+    @Binding var isMeshAnimating: Bool
 	var body: some View {
 		VStack {
 			VStack {  // header
@@ -41,15 +42,15 @@ struct StandingsView: View {
 
 			switch self.selectedStandings {
 			case .drivers:
-				DriverStandingsView(seasonId: self.seasonId)
+                DriverStandingsView(seasonId: self.seasonId, isMeshAnimating: $isMeshAnimating)
 			case .constructors:
-				ConstructorStandingsView()
+                ConstructorStandingsView(isMeshAnimating: $isMeshAnimating)
 			}
 		}
 	}
 }
 
 #Preview {
-	StandingsView(seasonId: "2025")
+    StandingsView(seasonId: "2025", isMeshAnimating: .constant(true))
 	//	TabsView(seasonId: "2025")
 }

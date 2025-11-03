@@ -22,7 +22,7 @@ struct TabsView: View {
             GrandPrixSchedulesView(cards: $cards, isMeshAnimating: $isMeshAnimating, seasonid: seasonId)
 				.tabBarItem(tab: .schedule, selection: $activeTab)
 
-			StandingsView(seasonId: seasonId)
+            StandingsView(seasonId: seasonId, isMeshAnimating: $isMeshAnimating)
 				.tabBarItem(tab: .standing, selection: $activeTab)
 		}
 		.background {
