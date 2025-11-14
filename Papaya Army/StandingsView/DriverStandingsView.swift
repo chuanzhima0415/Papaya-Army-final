@@ -57,16 +57,16 @@ struct DriverStandingsView: View {
                 LottieView(name: .loading, animationSpeed: 0.5, loopMode: .loop)
             }
         }
-        .onAppear {
-            Task {
-                driverStandings = await DriversStandingsManager.shared.retrieveDriverStandings()
-            }
+        .task {
+            driverStandings = await DriversStandingsManager.shared.retrieveDriverStandings()
         }
     }
 }
 
 #Preview {
-    //	DriverStandingsView(seasonId: "2025")
-    //	StandingsView(seasonId: "2025")
     TabsView(seasonId: "2025")
+}
+
+#Preview {
+    DriverStandingsView(seasonId: "2025", isMeshAnimating: .constant(true))
 }

@@ -45,11 +45,9 @@ struct QualifyingResultView: View {
 				LottieView(name: .loading, animationSpeed: 0.5, loopMode: .loop)
 			}
 		}
-		.onAppear {
-			Task {
-				qualifyingResults = await QualifyingResultManager.shared.retrieveQualifyingResults(year: year, round: round)
-			}
-		}
+        .task {
+            qualifyingResults = await QualifyingResultManager.shared.retrieveQualifyingResults(year: year, round: round)
+        }
     }
 }
 

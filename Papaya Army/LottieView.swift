@@ -54,6 +54,14 @@ struct LottieView: UIViewRepresentable {
         return view
     }
 
+//    func makeUIView(context: Context) -> UIView {
+//        animationView.contentMode = contentMode
+//        animationView.animationSpeed = animationSpeed
+//        animationView.loopMode = loopMode
+//        animationView.play()
+//        return animationView
+//    }
+
     /// SwiftUI 检测到 @State、@Binding、Environment 有变化了，就会自动调用这个方法。
     func updateUIView(_ uiView: UIView, context: Context) {
         if play {

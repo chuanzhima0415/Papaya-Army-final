@@ -44,10 +44,8 @@ struct ConstructorStandingsView: View {
                 LottieView(name: .loading, animationSpeed: 0.5, loopMode: .loop)
             }
         }
-        .onAppear {
-            Task {
-                constructorStandings = await ConstructorStandingsManager.shared.retrieveConstructorStandings()
-            }
+        .task {
+            constructorStandings = await ConstructorStandingsManager.shared.retrieveConstructorStandings()
         }
     }
 }
