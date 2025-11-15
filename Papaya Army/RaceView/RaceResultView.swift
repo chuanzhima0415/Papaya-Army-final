@@ -21,7 +21,8 @@ struct RaceResultView: View {
                                 number in
                                 RaceResultRowItemView(
                                     position: number + 1,
-                                    raceResult: raceResults[number])
+                                    raceResult: raceResults[number]
+                                )
                             }
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 Button {
@@ -36,7 +37,8 @@ struct RaceResultView: View {
                                 number in
                                 RaceResultRowItemView(
                                     position: number + 1,
-                                    raceResult: raceResults[number])
+                                    raceResult: raceResults[number]
+                                )
                             }
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 Button {
@@ -50,7 +52,8 @@ struct RaceResultView: View {
                             ForEach(10..<raceResults.count, id: \.self) { number in
                                 RaceResultRowItemView(
                                     position: number + 1,
-                                    raceResult: raceResults[number])
+                                    raceResult: raceResults[number]
+                                )
                             }
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 Button {
@@ -63,16 +66,13 @@ struct RaceResultView: View {
                     }
                     .navigationTitle("Race")
                 }
-                
+
                 LottieView(name: .loading, animationSpeed: 0.5, loopMode: .loop)
                     .opacity(raceResults == nil ? 1 : 0)
             }
         }
-        .onAppear {
-            Task {
-                raceResults = await RaceResultManager.shared
-                    .retrieveCertainRaceResult(year: year, round: round)
-            }
+        .task {
+            raceResults = await RaceResultManager.shared.retrieveCertainRaceResult(year: year, round: round)
         }
     }
 }

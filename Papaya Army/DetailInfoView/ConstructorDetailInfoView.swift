@@ -23,11 +23,9 @@ struct ConstructorDetailInfoView: View {
 			}
 			.navigationTitle(constructorName)
 		}
-		.onAppear {
-			Task {
-				constructorInfo = await ConstructorInfoManager.shared.retrieveConstructorInfo(teamId: constructorId)?[0]
-			}
-		}
+        .task {
+            constructorInfo = await ConstructorInfoManager.shared.retrieveConstructorInfo(teamId: constructorId)?[0]
+        }
     }
 }
 

@@ -8,58 +8,56 @@
 import SwiftUI
 
 struct SprintQualifyingResultView: View {
-	var year: String
-	var round: Int
-	@State var sprintQualifyingResults: [SprintQualifyingResult]?
-	var body: some View {
-		NavigationStack {
-			if let sprintQualifyingResults {
-				List {
-					Section {
-						ForEach(0 ..< min(3, sprintQualifyingResults.count), id: \.self) { number in
-							SprintQualifyingResultRowItemView(
-								position: number + 1,
-								sprintQualifyingResult: sprintQualifyingResults[number]
-							)
-						}
-						.swipeActions(edge: .trailing, allowsFullSwipe: false) {
-							Button {
-								// do something
-							} label: {
-								Label("Good Job!", systemImage: "hand.thumbsup")
-							}
-						}
-					}
-					Section {
-						ForEach(3 ..< sprintQualifyingResults.count, id: \.self) { number in
-							SprintQualifyingResultRowItemView(
-								position: number + 1,
-								sprintQualifyingResult: sprintQualifyingResults[number]
-							)
-						}
-						.swipeActions(edge: .trailing, allowsFullSwipe: false) {
-							Button {
-								// do something
-							} label: {
-								Label("Good Job!", systemImage: "hand.thumbsup")
-							}
-						}
-					}
-				}
-				.navigationTitle("Sprint Qualifying")
-			} else {
-				LottieView(name: .loading, animationSpeed: 0.5, loopMode: .loop)
-			}
-		}
-		.onAppear {
-			Task {
-				sprintQualifyingResults = await SprintQualifyingResultManager.shared
-					.retrieveSprintQualifyingResult(year: year, round: round)
-			}
-		}
-	}
+    var year: String
+    var round: Int
+    @State var sprintQualifyingResults: [SprintQualifyingResult]?
+    var body: some View {
+        NavigationStack {
+            if let sprintQualifyingResults {
+                List {
+                    Section {
+                        ForEach(0..<min(3, sprintQualifyingResults.count), id: \.self) { number in
+                            SprintQualifyingResultRowItemView(
+                                position: number + 1,
+                                sprintQualifyingResult: sprintQualifyingResults[number]
+                            )
+                        }
+                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                            Button {
+                                // do something
+                            } label: {
+                                Label("Good Job!", systemImage: "hand.thumbsup")
+                            }
+                        }
+                    }
+                    Section {
+                        ForEach(3..<sprintQualifyingResults.count, id: \.self) { number in
+                            SprintQualifyingResultRowItemView(
+                                position: number + 1,
+                                sprintQualifyingResult: sprintQualifyingResults[number]
+                            )
+                        }
+                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                            Button {
+                                // do something
+                            } label: {
+                                Label("Good Job!", systemImage: "hand.thumbsup")
+                            }
+                        }
+                    }
+                }
+                .navigationTitle("Sprint Qualifying")
+            } else {
+                LottieView(name: .loading, animationSpeed: 0.5, loopMode: .loop)
+            }
+        }
+        .task {
+            sprintQualifyingResults = await SprintQualifyingResultManager.shared
+                .retrieveSprintQualifyingResult(year: year, round: round)
+        }
+    }
 }
 
 #Preview {
-	SprintQualifyingResultView(year: "2024", round: 5)
+    SprintQualifyingResultView(year: "2024", round: 5)
 }
