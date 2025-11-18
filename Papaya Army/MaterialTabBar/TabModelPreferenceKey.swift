@@ -8,7 +8,8 @@
 import Foundation
 import SwiftUI
 
-struct TabModelPreferenceKey: PreferenceKey { // 向 tabContainer 传最新的 [TabModel]
+/// 向 tabContainer 传最新的 [TabModel]
+struct TabModelPreferenceKey: PreferenceKey {
 	static var defaultValue: [TabModel] = []
 	
 	static func reduce(value: inout [TabModel], nextValue: () -> [TabModel]) {

@@ -42,3 +42,7 @@ struct TabContainer<Content: View>: View {
 		Color.orange
 	}
 }
+
+#Preview {
+    TabsView(seasonId: "2025")
+}
